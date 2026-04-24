@@ -32,4 +32,15 @@ final class FavoritesStore {
             favorites.insert(bus.number)
         }
     }
+    
+    // MARK: - Notifications
+    
+    func hasNotifiedToday(route: String) -> Bool {
+        guard let date = SharedStorage.defaults.object(forKey: "lastNotified_\(route)") as? Date else { return false }
+        return Calendar.current.isDateInToday(date)
+    }
+
+    func markNotified(route: String) {
+        SharedStorage.defaults.set(Date(), forKey: "lastNotified_\(route)")
+    }
 }
