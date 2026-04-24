@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		1654ABFC2F9BC6D6009D69E8 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1654ABFB2F9BC6D6009D69E8 /* WidgetKit.framework */; };
+		1654ABFE2F9BC6D6009D69E8 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1654ABFD2F9BC6D6009D69E8 /* SwiftUI.framework */; };
+		1654AC0B2F9BC6D7009D69E8 /* Runshaw Bus WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1654ABF92F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		1654ABA12F9BC58B009D69E8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -21,13 +27,47 @@
 			remoteGlobalIDString = 1654AB922F9BC58A009D69E8;
 			remoteInfo = "Runshaw Bus";
 		};
+		1654AC092F9BC6D7009D69E8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1654AB8B2F9BC58A009D69E8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1654ABF82F9BC6D6009D69E8;
+			remoteInfo = "Runshaw Bus WidgetExtension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1654AC102F9BC6D7009D69E8 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1654AC0B2F9BC6D7009D69E8 /* Runshaw Bus WidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1654AB932F9BC58A009D69E8 /* Runshaw Bus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Runshaw Bus.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1654ABA02F9BC58B009D69E8 /* Runshaw BusTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Runshaw BusTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1654ABAA2F9BC58B009D69E8 /* Runshaw BusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Runshaw BusUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1654ABF92F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Runshaw Bus WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1654ABFB2F9BC6D6009D69E8 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		1654ABFD2F9BC6D6009D69E8 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1654AC0C2F9BC6D7009D69E8 /* Exceptions for "Runshaw Bus Widget" folder in "Runshaw Bus WidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 1654ABF82F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1654AB952F9BC58A009D69E8 /* Runshaw Bus */ = {
@@ -43,6 +83,14 @@
 		1654ABAD2F9BC58B009D69E8 /* Runshaw BusUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "Runshaw BusUITests";
+			sourceTree = "<group>";
+		};
+		1654ABFF2F9BC6D6009D69E8 /* Runshaw Bus Widget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1654AC0C2F9BC6D7009D69E8 /* Exceptions for "Runshaw Bus Widget" folder in "Runshaw Bus WidgetExtension" target */,
+			);
+			path = "Runshaw Bus Widget";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +117,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1654ABF62F9BC6D6009D69E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1654ABFE2F9BC6D6009D69E8 /* SwiftUI.framework in Frameworks */,
+				1654ABFC2F9BC6D6009D69E8 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -78,6 +135,8 @@
 				1654AB952F9BC58A009D69E8 /* Runshaw Bus */,
 				1654ABA32F9BC58B009D69E8 /* Runshaw BusTests */,
 				1654ABAD2F9BC58B009D69E8 /* Runshaw BusUITests */,
+				1654ABFF2F9BC6D6009D69E8 /* Runshaw Bus Widget */,
+				1654ABFA2F9BC6D6009D69E8 /* Frameworks */,
 				1654AB942F9BC58A009D69E8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -88,8 +147,18 @@
 				1654AB932F9BC58A009D69E8 /* Runshaw Bus.app */,
 				1654ABA02F9BC58B009D69E8 /* Runshaw BusTests.xctest */,
 				1654ABAA2F9BC58B009D69E8 /* Runshaw BusUITests.xctest */,
+				1654ABF92F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1654ABFA2F9BC6D6009D69E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1654ABFB2F9BC6D6009D69E8 /* WidgetKit.framework */,
+				1654ABFD2F9BC6D6009D69E8 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,10 +171,12 @@
 				1654AB8F2F9BC58A009D69E8 /* Sources */,
 				1654AB902F9BC58A009D69E8 /* Frameworks */,
 				1654AB912F9BC58A009D69E8 /* Resources */,
+				1654AC102F9BC6D7009D69E8 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				1654AC0A2F9BC6D7009D69E8 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				1654AB952F9BC58A009D69E8 /* Runshaw Bus */,
@@ -163,6 +234,28 @@
 			productReference = 1654ABAA2F9BC58B009D69E8 /* Runshaw BusUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		1654ABF82F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1654AC0D2F9BC6D7009D69E8 /* Build configuration list for PBXNativeTarget "Runshaw Bus WidgetExtension" */;
+			buildPhases = (
+				1654ABF52F9BC6D6009D69E8 /* Sources */,
+				1654ABF62F9BC6D6009D69E8 /* Frameworks */,
+				1654ABF72F9BC6D6009D69E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				1654ABFF2F9BC6D6009D69E8 /* Runshaw Bus Widget */,
+			);
+			name = "Runshaw Bus WidgetExtension";
+			packageProductDependencies = (
+			);
+			productName = "Runshaw Bus WidgetExtension";
+			productReference = 1654ABF92F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -184,6 +277,9 @@
 						CreatedOnToolsVersion = 26.4.1;
 						TestTargetID = 1654AB922F9BC58A009D69E8;
 					};
+					1654ABF82F9BC6D6009D69E8 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
 				};
 			};
 			buildConfigurationList = 1654AB8E2F9BC58A009D69E8 /* Build configuration list for PBXProject "Runshaw Bus" */;
@@ -203,6 +299,7 @@
 				1654AB922F9BC58A009D69E8 /* Runshaw Bus */,
 				1654AB9F2F9BC58B009D69E8 /* Runshaw BusTests */,
 				1654ABA92F9BC58B009D69E8 /* Runshaw BusUITests */,
+				1654ABF82F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -223,6 +320,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		1654ABA82F9BC58B009D69E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1654ABF72F9BC6D6009D69E8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -253,6 +357,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		1654ABF52F9BC6D6009D69E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -265,6 +376,11 @@
 			isa = PBXTargetDependency;
 			target = 1654AB922F9BC58A009D69E8 /* Runshaw Bus */;
 			targetProxy = 1654ABAB2F9BC58B009D69E8 /* PBXContainerItemProxy */;
+		};
+		1654AC0A2F9BC6D7009D69E8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1654ABF82F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension */;
+			targetProxy = 1654AC092F9BC6D7009D69E8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -538,6 +654,66 @@
 			};
 			name = Release;
 		};
+		1654AC0E2F9BC6D7009D69E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L4D3B7X92S;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Runshaw Bus Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Runshaw Bus Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.konpeki.Runshaw-Bus.Runshaw-Bus-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1654AC0F2F9BC6D7009D69E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L4D3B7X92S;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Runshaw Bus Widget/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Runshaw Bus Widget";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.konpeki.Runshaw-Bus.Runshaw-Bus-Widget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -573,6 +749,15 @@
 			buildConfigurations = (
 				1654ABBB2F9BC58B009D69E8 /* Debug */,
 				1654ABBC2F9BC58B009D69E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1654AC0D2F9BC6D7009D69E8 /* Build configuration list for PBXNativeTarget "Runshaw Bus WidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1654AC0E2F9BC6D7009D69E8 /* Debug */,
+				1654AC0F2F9BC6D7009D69E8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
