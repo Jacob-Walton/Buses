@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 enum FilterOption: String, CaseIterable, Identifiable {
     case all = "All", arrived = "Arrived", waiting = "Waiting"
@@ -23,7 +24,7 @@ struct ContentView: View {
     @State private var searchText = ""
     @State private var filter: FilterOption = .all
     @State private var lastUpdated: Date? = nil
-    // @State private var isActivityActive = ActivityManager.isActive
+    @State private var isActivityActive = ActivityManager.isActive
     @State private var previousFavoriteArrivedNumbers: Set<String> = {
         guard let data = SharedStorage.defaults.data(forKey: SharedStorage.cachedBusesKey),
               let buses = try? JSONDecoder().decode([Bus].self, from: data),
@@ -63,6 +64,9 @@ struct ContentView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
                     header
+                    statRow
+                    searchField
+                    filterPills
                     content
                 }
                 .padding(.horizontal, 16)
@@ -92,8 +96,56 @@ struct ContentView: View {
             VStack(alignment: .leading, spacing: 2) {
                 Text("Departures")
                     .font(.system(size: 34, weight: .heavy, design: .rounded))
+                if let lastUpdated {
+                    Text("Updated \(lastUpdated.formatted(date: .omitted, time: .shortened))")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                }
             }
+            Spacer()
+            Button {
+                Task {
+                    Haptics.tap()
+                    if isActivityActive {
+                        await ActivityManager.end()
+                    } else if !favorites.favorites.isEmpty {
+                        let routes = favorites.favorites.sorted { (Int($0) ?? .max) < (Int($1) ?? .max) }
+                        await ActivityManager.start(routes: routes)
+                        await ActivityManager.update(with: buses)
+                    }
+                    isActivityActive = ActivityManager.isActive
+                }
+            } label: {
+                Image(systemName: isActivityActive ? "bell.badge.fill" : "bell")
+                    .font(.system(size: 17, weight: .semibold))
+                    .frame(width: 44, height: 44)
+                    .background(.thickMaterial, in: Circle())
+                    .foregroundStyle(
+                        isActivityActive ? .orange
+                        : favorites.favorites.isEmpty ? Color(.tertiaryLabel)
+                        : .primary
+                    )
+            }
+            .disabled(favorites.favorites.isEmpty && !isActivityActive)
+            Button {
+                Haptics.tap()
+                Task { await fetchData() }
+            } label: {
+                Group {
+                    if isLoading {
+                        ProgressView()
+                    } else {
+                        Image(systemName: "arrow.clockwise")
+                            .font(.system(size: 17, weight: .semibold))
+                    }
+                }
+                .frame(width: 44, height: 44)
+                .background(.thickMaterial, in: Circle())
+                .foregroundStyle(.primary)
+            }
+            .disabled(isLoading)
         }
+        .padding(.top, 8)
     }
     
     @ViewBuilder
@@ -150,6 +202,53 @@ struct ContentView: View {
         .padding(.vertical, 60)
     }
     
+    private var statRow: some View {
+        HStack(spacing: 10) {
+            StatPill(count: arrivedCount, label: "arrived", color: .green)
+            StatPill(count: waitingCount, label: "waiting", color: .orange)
+            Spacer()
+        }
+    }
+    
+    private var searchField: some View {
+        HStack(spacing: 10) {
+            Image(systemName: "magnifyingglass")
+                .foregroundStyle(.secondary)
+            TextField("Route number", text: $searchText)
+                .textInputAutocapitalization(.characters)
+                .autocorrectionDisabled()
+                .font(.system(.body, design: .rounded))
+            if !searchText.isEmpty {
+                Button { searchText = "" } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundStyle(.tertiary)
+                }
+            }
+        }
+        .padding(.horizontal, 14)
+        .padding(.vertical, 12)
+        .background(Color(.secondarySystemGroupedBackground),
+                    in: RoundedRectangle(cornerRadius: 14, style: .continuous))
+    }
+
+    private var filterPills: some View {
+        HStack(spacing: 8) {
+            ForEach(FilterOption.allCases) { option in
+                FilterPill(
+                    title: option.rawValue,
+                    isSelected: filter == option
+                ) {
+                    withAnimation(.snappy) {
+                        Haptics.tap()
+                        filter = option
+                    }
+                }
+            }
+            Spacer()
+        }
+    }
+
+    
     // MARK: - Utility Functions
     
     private func fetchData() async {
@@ -178,10 +277,9 @@ struct ContentView: View {
                 SharedStorage.defaults.set(encoded, forKey: SharedStorage.cachedBusesKey)
                 SharedStorage.defaults.set(Date(), forKey: SharedStorage.cachedAtKey)
             }
-            // WidgetCenter.shared.reloadAllTimelines()
-            // TODO: Update live activity
-            // await ActivityManager.update(with: data)
-            // isActivityActive = ActivityManager.isActive
+            WidgetCenter.shared.reloadAllTimelines()
+            await ActivityManager.update(with: data)
+            isActivityActive = ActivityManager.isActive
         } else if buses.isEmpty {
             errorMessage = "Check your connection and try again."
             Haptics.error()

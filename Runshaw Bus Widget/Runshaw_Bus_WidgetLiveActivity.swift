@@ -5,76 +5,125 @@
 //  Created by Jacob on 24/04/2026.
 //
 
+import SwiftUI
 import ActivityKit
 import WidgetKit
-import SwiftUI
-
-struct Runshaw_Bus_WidgetAttributes: ActivityAttributes {
-    public struct ContentState: Codable, Hashable {
-        // Dynamic stateful properties about your activity go here!
-        var emoji: String
-    }
-
-    // Fixed non-changing properties about your activity go here!
-    var name: String
-}
 
 struct Runshaw_Bus_WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
-        ActivityConfiguration(for: Runshaw_Bus_WidgetAttributes.self) { context in
-            // Lock screen/banner UI goes here
-            VStack {
-                Text("Hello \(context.state.emoji)")
-            }
-            .activityBackgroundTint(Color.cyan)
-            .activitySystemActionForegroundColor(Color.black)
-
+        ActivityConfiguration(for: BusActivityAttributes.self) { context in
+            LockScreenView(context: context)
+                .padding()
+                .activityBackgroundTint(.black.opacity(0.3))
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded UI goes here.  Compose the expanded UI through
-                // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+                    let arrived = context.state.buses.filter { $0.bay != nil }.count
+                    let total = context.state.buses.count
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("\(arrived)/\(total)")
+                            .font(.system(.title, design: .rounded, weight: .heavy))
+                            .foregroundStyle(.white)
+                        Text("arrived")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    if let first = context.state.buses.first(where: { $0.bay != nil }) {
+                        VStack(alignment: .trailing, spacing: 2) {
+                            Text(first.route)
+                                .font(.system(.headline, design: .rounded, weight: .heavy))
+                                .foregroundStyle(.white)
+                            Text("Bay \(first.bay!)")
+                                .font(.system(.caption, design: .rounded, weight: .semibold))
+                                .foregroundStyle(.green)
+                        }
+                    }
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom \(context.state.emoji)")
-                    // more content
+                    HStack(spacing: 16) {
+                        ForEach(context.state.buses, id: \.route) { bus in
+                            VStack(spacing: 2) {
+                                Text(bus.route)
+                                    .font(.system(.caption, design: .rounded, weight: .bold))
+                                    .foregroundStyle(.white)
+                                if let bay = bus.bay {
+                                    Text("Bay \(bay)")
+                                        .font(.system(size: 10, weight: .semibold))
+                                        .foregroundStyle(.green)
+                                } else {
+                                    Image(systemName: "clock")
+                                        .font(.system(size: 10))
+                                        .foregroundStyle(.orange)
+                                }
+                            }
+                        }
+                    }
+                    .padding(.top, 4)
+                    Text("Updated \(context.state.lastUpdated, style: .time)")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 2)
                 }
             } compactLeading: {
-                Text("L")
+                Image(systemName: "bus.fill")
+                    .foregroundStyle(.white)
             } compactTrailing: {
-                Text("T \(context.state.emoji)")
+                let arrived = context.state.buses.filter { $0.bay != nil }.count
+                let total = context.state.buses.count
+                Text("\(arrived)/\(total)")
+                    .font(.system(.caption, design: .rounded, weight: .semibold))
+                    .foregroundStyle(arrived > 0 ? .green : .orange)
             } minimal: {
-                Text(context.state.emoji)
+                let allArrived = !context.state.buses.isEmpty && context.state.buses.allSatisfy { $0.bay != nil }
+                Image(systemName: allArrived ? "checkmark.circle.fill" : "bus")
+                    .foregroundStyle(allArrived ? .green : .orange)
             }
-            .widgetURL(URL(string: "http://www.apple.com"))
-            .keylineTint(Color.red)
+            .keylineTint(context.state.buses.allSatisfy { $0.bay != nil } ? .green : .orange)
         }
     }
 }
 
-extension Runshaw_Bus_WidgetAttributes {
-    fileprivate static var preview: Runshaw_Bus_WidgetAttributes {
-        Runshaw_Bus_WidgetAttributes(name: "World")
+private struct LockScreenView: View {
+    let context: ActivityViewContext<BusActivityAttributes>
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ForEach(context.state.buses, id: \.route) { bus in
+                HStack {
+                    Text(bus.route)
+                        .font(.system(.headline, design: .rounded, weight: .heavy))
+                        .foregroundStyle(.primary)
+                        .frame(minWidth: 48, alignment: .leading)
+                    if let bay = bus.bay {
+                        Text("Bay \(bay)")
+                            .font(.system(.subheadline, design: .rounded, weight: .semibold))
+                            .foregroundStyle(.green)
+                    } else {
+                        Label("Waiting", systemImage: "clock")
+                                .font(.subheadline)
+                                .foregroundStyle(bus.bay != nil ? .primary : .secondary)
+                    }
+                    Spacer()
+                }
+            }
+            Text("Updated \(context.state.lastUpdated, style: .time)")
+                .font(.caption2)
+                .foregroundStyle(.secondary)
+        }
     }
 }
 
-extension Runshaw_Bus_WidgetAttributes.ContentState {
-    fileprivate static var smiley: Runshaw_Bus_WidgetAttributes.ContentState {
-        Runshaw_Bus_WidgetAttributes.ContentState(emoji: "😀")
-     }
-     
-     fileprivate static var starEyes: Runshaw_Bus_WidgetAttributes.ContentState {
-         Runshaw_Bus_WidgetAttributes.ContentState(emoji: "🤩")
-     }
-}
-
-#Preview("Notification", as: .content, using: Runshaw_Bus_WidgetAttributes.preview) {
-   Runshaw_Bus_WidgetLiveActivity()
+#Preview("Live Activity", as: .content, using: BusActivityAttributes(title: "My Buses")) {
+    Runshaw_Bus_WidgetLiveActivity()
 } contentStates: {
-    Runshaw_Bus_WidgetAttributes.ContentState.smiley
-    Runshaw_Bus_WidgetAttributes.ContentState.starEyes
+    BusActivityAttributes.ContentState(
+        buses: [
+            .init(route: "800", bay: "A7"),
+            .init(route: "961", bay: nil),
+            .init(route: "819", bay: "C3")
+        ],
+        lastUpdated: .now
+    )
 }

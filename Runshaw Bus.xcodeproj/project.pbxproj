@@ -72,6 +72,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Shared/Bus.swift,
+				Shared/BusActivityAttributes.swift,
 				Shared/SharedStorage.swift,
 			);
 			target = 1654ABF82F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension */;
