@@ -84,7 +84,7 @@ struct ContentView: View {
         .task { await autoRefreshLoop() }
         .onChange(of: favorites.favorites) { old, new in
             if old.isEmpty && !new.isEmpty {
-                // TODO: Request notification permissions
+                Task { _ = await NotificationManager.requestAuthorization() }
             }
         }
     }
