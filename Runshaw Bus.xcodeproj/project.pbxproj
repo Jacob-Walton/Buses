@@ -68,11 +68,22 @@
 			);
 			target = 1654ABF82F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension */;
 		};
+		1654AC1F2F9BD1DF009D69E8 /* Exceptions for "Runshaw Bus" folder in "Runshaw Bus WidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Shared/Bus.swift,
+				Shared/SharedStorage.swift,
+			);
+			target = 1654ABF82F9BC6D6009D69E8 /* Runshaw Bus WidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		1654AB952F9BC58A009D69E8 /* Runshaw Bus */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1654AC1F2F9BD1DF009D69E8 /* Exceptions for "Runshaw Bus" folder in "Runshaw Bus WidgetExtension" target */,
+			);
 			path = "Runshaw Bus";
 			sourceTree = "<group>";
 		};

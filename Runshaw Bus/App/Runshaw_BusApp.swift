@@ -9,9 +9,22 @@ import SwiftUI
 
 @main
 struct Runshaw_BusApp: App {
+    @State private var favorites = FavoritesStore()
+    @Environment(\.scenePhase) private var scenePhase
+    
+    init() {
+            // TODO: Background refresh
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(favorites)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .background {
+                // TODO: Schedule background refresh
+            }
         }
     }
 }
