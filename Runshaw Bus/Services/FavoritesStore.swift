@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WidgetKit
 
 @Observable
 final class FavoritesStore {
@@ -13,6 +14,7 @@ final class FavoritesStore {
         didSet {
             SharedStorage.defaults.set(Array(favorites), forKey:
                                         SharedStorage.favoritesKey)
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
