@@ -25,7 +25,7 @@ enum NotificationManager {
         content.interruptionLevel = .timeSensitive
 
         if arrivals.count == 1 {
-            let a = arrivals[0]
+            guard let a = arrivals.first else { return }
             content.title = "Bus \(a.route) has arrived"
             content.body = "Head to Bay \(a.bay)."
         } else {

@@ -51,7 +51,7 @@ struct Runshaw_Bus_WidgetLiveActivity: Widget {
                                 Text(first.route)
                                     .font(.system(.headline, design: .rounded, weight: .heavy))
                                     .foregroundStyle(.white)
-                                Text("Bay \(first.bay!)")
+                                Text("Bay \(first.bay ?? "")")
                                     .font(.system(.caption, design: .rounded, weight: .semibold))
                                     .foregroundStyle(.green)
                             }

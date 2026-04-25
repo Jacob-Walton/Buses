@@ -13,9 +13,9 @@ struct Runshaw_BusApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
     init() {
-            // TODO: Background refresh
+        BackgroundRefresh.register()
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -23,7 +23,7 @@ struct Runshaw_BusApp: App {
         }
         .onChange(of: scenePhase) { _, phase in
             if phase == .background {
-                // TODO: Schedule background refresh
+                BackgroundRefresh.schedule()
             }
         }
     }

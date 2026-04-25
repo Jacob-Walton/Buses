@@ -289,17 +289,34 @@ struct ContentView: View {
     
     // Runs for the lifetime of the view. Fetches every 2 min during active window;
     // sleeps until window open if called early; exits if outside window with no future open time.
+    // Auto-starts the Live Activity on window entry and ends it when the window closes.
     private func autoRefreshLoop() async {
         while !Task.isCancelled {
             if isInActiveWindow() {
+                await autoStartActivityIfNeeded()
                 try? await Task.sleep(for: .seconds(2 * 60))
                 if !Task.isCancelled, isInActiveWindow() { await fetchData() }
             } else if let delay = secondsUntilWindowOpen(), delay > 0 {
                 try? await Task.sleep(for: .seconds(delay))
             } else {
+                await autoEndActivityIfActive()
                 return
             }
         }
+    }
+
+    private func autoStartActivityIfNeeded() async {
+        guard !isActivityActive, !favorites.favorites.isEmpty else { return }
+        let routes = favorites.favorites.sorted { (Int($0) ?? .max) < (Int($1) ?? .max) }
+        await ActivityManager.start(routes: routes)
+        await ActivityManager.update(with: buses)
+        isActivityActive = ActivityManager.isActive
+    }
+
+    private func autoEndActivityIfActive() async {
+        guard isActivityActive else { return }
+        await ActivityManager.end()
+        isActivityActive = ActivityManager.isActive
     }
     
     private func isInActiveWindow() -> Bool {
