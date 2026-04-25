@@ -126,6 +126,7 @@ struct ContentView: View {
                         : .primary
                     )
             }
+            .accessibilityLabel("Live Activity")
             .disabled(favorites.favorites.isEmpty && !isActivityActive)
             Button {
                 Haptics.tap()
@@ -223,6 +224,7 @@ struct ContentView: View {
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.tertiary)
                 }
+                .accessibilityLabel("Clear search")
             }
         }
         .padding(.horizontal, 14)
@@ -254,7 +256,21 @@ struct ContentView: View {
     private func fetchData() async {
         isLoading = true
         errorMessage = nil
-        
+
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-UITestingStubData") {
+            withAnimation(.snappy) {
+                buses = [
+                    Bus(id: 0, number: "800", bay: "A7"),
+                    Bus(id: 1, number: "961", bay: "TBC"),
+                    Bus(id: 2, number: "819", bay: "C3"),
+                ]
+            }
+            isLoading = false
+            return
+        }
+        #endif
+
         let result = await apiService.getData()
         
         guard !Task.isCancelled else {
@@ -289,7 +305,6 @@ struct ContentView: View {
     
     // Runs for the lifetime of the view. Fetches every 2 min during active window;
     // sleeps until window open if called early; exits if outside window with no future open time.
-    // Auto-starts the Live Activity on window entry and ends it when the window closes.
     private func autoRefreshLoop() async {
         while !Task.isCancelled {
             if isInActiveWindow() {

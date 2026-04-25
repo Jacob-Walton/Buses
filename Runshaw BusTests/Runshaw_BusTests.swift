@@ -95,6 +95,15 @@ final class BusesTests: XCTestCase {
         XCTAssertNil(defaults.object(forKey: "lastNotified_999"))
     }
 
+    // MARK: - Bus model — Codable
+
+    func testBusCodableRoundTrip() throws {
+        let original = Bus(id: 42, number: "800", bay: "A7")
+        let data = try JSONEncoder().encode(original)
+        let decoded = try JSONDecoder().decode(Bus.self, from: data)
+        XCTAssertEqual(decoded, original)
+    }
+
     // MARK: - HTML parsing
 
     func testParseValidHTML() throws {
@@ -124,6 +133,30 @@ final class BusesTests: XCTestCase {
 
     func testParseMissingTable() throws {
         let html = "<html><body></body></html>"
+        let buses = try ApiService().parseHTML(html)
+        XCTAssertTrue(buses.isEmpty)
+    }
+
+    func testParseRowWithTooFewCellsIsSkipped() throws {
+        let html = """
+        <html><body>
+        <table id="grdAll"><tbody>
+        <tr><td>800</td><td>A7</td></tr>
+        </tbody></table>
+        </body></html>
+        """
+        let buses = try ApiService().parseHTML(html)
+        XCTAssertTrue(buses.isEmpty)
+    }
+
+    func testParseWhitespaceOnlyNumberIsSkipped() throws {
+        let html = """
+        <html><body>
+        <table id="grdAll"><tbody>
+        <tr><td>   </td><td></td><td>A7</td></tr>
+        </tbody></table>
+        </body></html>
+        """
         let buses = try ApiService().parseHTML(html)
         XCTAssertTrue(buses.isEmpty)
     }

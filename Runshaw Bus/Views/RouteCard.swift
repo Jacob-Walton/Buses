@@ -49,6 +49,7 @@ struct RouteCard: View {
                     .padding(6)
                     .background(.black.opacity(0.25), in: Circle())
                     .padding(6)
+                    .accessibilityLabel("Favourited")
             }
         }
         .contentShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
