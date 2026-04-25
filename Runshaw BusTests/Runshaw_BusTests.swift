@@ -97,7 +97,7 @@ final class BusesTests: XCTestCase {
 
     // MARK: - Bus model — Codable
 
-    func testBusCodableRoundTrip() throws {
+    @MainActor func testBusCodableRoundTrip() throws {
         let original = Bus(id: 42, number: "800", bay: "A7")
         let data = try JSONEncoder().encode(original)
         let decoded = try JSONDecoder().decode(Bus.self, from: data)
